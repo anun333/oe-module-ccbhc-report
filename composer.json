@@ -1,0 +1,47 @@
+{
+    "name": "anun333/oe-module-ccbhc-report",
+    "description": "The CCBHC clinic-collected quality measures for OpenEMR: Time to Services, social drivers screening and depression screening, in the shape of SAMHSA's reporting template.",
+    "type": "openemr-module",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "openemr",
+        "openemr-module",
+        "ccbhc",
+        "samhsa",
+        "quality-measures",
+        "behavioral-health"
+    ],
+    "homepage": "https://github.com/anun333/oe-module-ccbhc-report",
+    "require": {
+        "php": ">=8.2",
+        "anun333/openhealthcare-common": "^1.1",
+        "openemr/oe-module-installer-plugin": "^0.1.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenHealthcare\\CcbhcReport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenHealthcare\\CcbhcReport\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "openemr/oe-module-installer-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "openhealthcare": {
+            "footprint-not-covered": [
+                "Whether the measures match SAMHSA's own reading of its specifications. The unit tests hold each rule the manual states (business days, New Clients, the 14-day screen window, the five SDOH domains, the bipolar exclusion), and dev/ccbhc_report_check.py in the openhealthcare workspace checks them on synthetic records; no clinic's real submission has been compared yet.",
+                "Whether a restricted user sees only what they should. The pages check patients/med, patients/demo and admin/super as written above, and front office (demo only) was checked end to end; sensitivity-marked visits are not filtered out of the counts, which hold no clinical detail beyond the client list."
+            ]
+        }
+    }
+}
