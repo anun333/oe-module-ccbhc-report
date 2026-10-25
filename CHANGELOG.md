@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-10-25)
 
 **The CCBHC clinic-collected measures the stewards allow, in the reporting template's shape.**
 
