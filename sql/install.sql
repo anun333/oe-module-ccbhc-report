@@ -53,3 +53,9 @@ CREATE TABLE `ccbhc_crisis` (
     KEY `contacted_at` (`contacted_at`)
 ) ENGINE=InnoDB COMMENT='CCBHC Report: crisis episodes';
 #EndIf
+
+-- An index on core's form_questionnaire_assessments.response_id, which the questionnaire queries join on;
+-- shared by name with the UDS, Title X and CCBHC Report modules (see the upgrade file that adds it).
+#IfNotIndex form_questionnaire_assessments response_id
+ALTER TABLE `form_questionnaire_assessments` ADD INDEX `response_id` (`response_id`(64));
+#EndIf

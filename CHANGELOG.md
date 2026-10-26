@@ -2,6 +2,9 @@
 
 ## 0.1.5 (unreleased)
 
+- **Faster on years of data.** On a test copy of a mid-size clinic (20,000 patients, 200,000 visits, 15,384 PHQ-9 responses, MariaDB 12.3.3) the 2025 report went from 76 s to 6.7 s, with the same output:
+  - **an index on core's `form_questionnaire_assessments.response_id`**, which the deleted-form check joins on and core leaves unindexed (76 s to 45 s). It's added on install and on upgrade (`sql/0_1_4-to-0_1_5_upgrade.sql`), shared by name with the UDS and Title X Report modules, so it's made once;
+  - **visits' billing codes read by patient as well as visit** (45 s to 6.7 s): core's `billing` table has an index on the patient but none on the visit, so each lookup of 500 visits read the whole table.
 - **Pages are announced in your language.** Each page now declares the signed-in user's OpenEMR language and its direction instead of English, so a screen reader reads the translated text in that language. It comes from openhealthcare-common 1.4.0, which this version requires. If another module's older copy of the library loads first on a site that installs by hand, the pages say English, as before, rather than stop.
 - **Manual installs:** the README now says that every module's own copy of openhealthcare-common must be the same version, since OpenEMR loads the library once, from the first module that registers it.
 

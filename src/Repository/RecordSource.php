@@ -75,9 +75,16 @@ final class RecordSource
             [$from->format('Y-m-d'), $to->modify('+1 day')->format('Y-m-d')],
         );
         $codes = [];
-        foreach (array_chunk(array_values(array_unique(array_map(fn(array $r): int => (int)$r['encounter'], $rows))), self::CHUNK) as $chunk) {
+        $pidOf = [];
+        foreach ($rows as $r) {
+            $pidOf[(int)$r['encounter']] = (int)$r['pid'];
+        }
+        // Core's billing table has no index on encounter, only on pid, so each chunk also names its patients:
+        // the pid index then finds the lines instead of a scan of the whole table per chunk.
+        foreach (array_chunk(array_keys($pidOf), self::CHUNK) as $chunk) {
+            $chunkPids = array_values(array_unique(array_map(fn(int $e): int => $pidOf[$e], $chunk)));
             foreach (QueryUtils::fetchRecords("SELECT `encounter`, `code_type`, `code` FROM `billing` WHERE `activity` = 1 AND `code_type` IN ('CPT4', 'HCPCS')
-                AND `encounter` IN (" . self::marks($chunk) . ')', $chunk) as $b) {
+                AND `pid` IN (" . self::marks($chunkPids) . ') AND `encounter` IN (' . self::marks($chunk) . ')', [...$chunkPids, ...$chunk]) as $b) {
                 $codes[(int)$b['encounter']][] = strtoupper(trim((string)$b['code_type'])) . ':' . strtoupper(trim((string)$b['code']));
             }
         }

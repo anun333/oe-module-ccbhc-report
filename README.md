@@ -45,6 +45,10 @@ Then go to Modules › Manage Modules › Unregistered, and **Register**, **Inst
 
 **Manual installs:** if you copy modules in by hand rather than through Composer, every module's own `vendor/` must hold the same version of openhealthcare-common. OpenEMR loads the library once, from the first module that registers it, so an older copy in one module is what every module gets.
 
+### An index on a core table
+
+Installing or upgrading adds one index to a core table: `response_id` on `form_questionnaire_assessments (response_id(64))`. The deleted-form check joins on that column, which core leaves without an index; on a test copy of a mid-size clinic (20,000 patients, 200,000 visits, 15,384 PHQ-9 responses) the index took the 2025 report from 76 s to 45 s, with the same output (reading billing by patient took it on to 6.7 s). The UDS and Title X Report modules add the same index under the same name, so it's created once; if core adds an index named `response_id` itself, the module's step is skipped. Removing the module leaves the index in place; it changes no data.
+
 ## Compatibility
 
 Written for OpenEMR 7.0 and later through [openhealthcare-common](https://github.com/anun333/openhealthcare-common)'s compatibility layer; its bootstrap never stops a page on any version. OpenEMR's SDOH assessment came in 7.0.4; before it, only a billed M1207 counts for the SDOH measure.
