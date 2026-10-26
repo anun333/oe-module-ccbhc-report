@@ -12,7 +12,7 @@ Using the module day to day, task by task for each role: see [GUIDE.md](GUIDE.md
 
 - **Time to Services (I-SERV):** the average business days from a New Client's First Contact to the Initial Evaluation and to the Initial Clinical Service, and the average hours from a crisis contact to face-to-face crisis care. Business days leave out weekends, federal holidays (on their observed days) and the state holidays you list.
 - **Screening for Social Drivers of Health (SDOH):** adults with a qualifying visit, and of them those screened for all five domains (food, housing, transportation, utilities, interpersonal safety) in the year, through OpenEMR's SDOH assessment or a billed M1207.
-- **Screening for Depression and Follow-Up Plan (CDF-AD, 18 and older; CDF-CH, 12 to 17):** the most recent PHQ-9 or PHQ-2 on the day of a qualifying visit or in the 14 days before, negative, or positive with a follow-up (a referral or a care plan intervention) that day, or the G8431 and G8510 reporting codes. Bipolar disorder before the visit excludes; G8433 is an exception.
+- **Screening for Depression and Follow-Up Plan (CDF-AD, 18 and older; CDF-CH, 12 to 17):** the most recent PHQ-9 or PHQ-2 on the day of a qualifying visit or in the 14 days before, negative, or positive with a follow-up (a referral or a care plan intervention) that day, or the G8431 and G8510 reporting codes. Bipolar disorder before the visit excludes, unless the problem is marked entered-in-error or refuted; G8433 is an exception. A questionnaire whose form was deleted from its visit isn't a screen.
 - **Case Load Characteristics:** clients seen in the year by age, sex, ethnicity, race, insurance and (where the UDS module records it) veteran status.
 - Each measure is stratified as the template asks: age where it applies, payer (Medicaid, with CHIP under Medicaid and without dual eligibles, or Non-Medicaid, on the first visit of the year), ethnicity and race (from the CDC codes OpenEMR keeps on its race and ethnicity lists). A client list per measure (CSV) says, for each client, whether they counted and why.
 - **Requests for Services** (menu): the front desk logs the day a person or guardian asks for services, the First Contact the measure counts from, which OpenEMR doesn't record. The Staff Worklist, when installed, gets a **Requests for services** tab: each request with no evaluation yet, high priority past 10 business days (1 for an urgent request).
@@ -70,3 +70,7 @@ See [openhealthcare-common](https://github.com/anun333/openhealthcare-common) fo
 ## License
 
 GPL-3.0-or-later, as OpenEMR. See [LICENSE](LICENSE).
+
+The module reads PHQ-9 and PHQ-2 totals by their LOINC codes (44261-6 and 55758-7), under the [LOINC licence](https://loinc.org/license/) (Regenstrief Institute):
+
+> This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.

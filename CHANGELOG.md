@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.4 (unreleased)
+
+- **Fixed: a bipolar diagnosis marked entered-in-error or refuted no longer excludes a client from CDF-AD and CDF-CH.** The problem list's Verification (core's condition-verification list) is now read, so only a diagnosis that stands removes the client from the denominator.
+- **Fixed: a questionnaire whose form was deleted from its visit no longer counts as a depression screen.** Deleting a questionnaire form from an encounter leaves its saved response behind (`forms.deleted = 1`); those responses are now left out, as the UDS and Title X modules already did.
+- **A questionnaire response saved without its own copy of the Questionnaire is read through the registered one**, so its PHQ-9 or PHQ-2 total is found by code. OpenEMR's own form always saves the copy; an API client may not.
+- **LOINC's notice:** the README now carries the notice LOINC's licence asks for, since the module reads PHQ-9 and PHQ-2 totals by their LOINC codes.
+- **Checked:** end to end on OpenEMR 8.4.1, with a client whose bipolar problem is entered-in-error (counted), one whose PHQ-9 form was deleted (not screened) and one whose response has no Questionnaire copy (counted); on 0.1.3's code exactly those three fail.
+
 ## 0.1.3 (2026-10-26)
 
 - **A staff guide:** [GUIDE.md](GUIDE.md) walks through each task by role, with the labels as the pages show them. **Help** on every page opens it at this version's tag, in a new window.

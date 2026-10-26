@@ -206,10 +206,19 @@ final class RecordSource
         }
         // A draft isn't a screen: from OpenEMR's runtime 0.4.0 a submitted response is saved completed, and
         // before it every response was saved in-progress (openhealthcare-common's QuestionnaireStatus).
-        [$counted, $countedBinds] = QuestionnaireStatus::condition('questionnaire_response');
+        // A response whose questionnaire form was deleted from its visit isn't a screen; core leaves the response row
+        // behind (forms.deleted = 1). A response saved without its own copy of the Questionnaire takes the
+        // registered one's, which says the same codes.
+        [$counted, $countedBinds] = QuestionnaireStatus::condition('qr');
         foreach (array_chunk($pids, self::CHUNK) as $chunk) {
-            foreach (QueryUtils::fetchRecords('SELECT `patient_id`, DATE(`create_time`) AS d, `questionnaire`, `questionnaire_response` FROM `questionnaire_response`
-                WHERE `patient_id` IN (' . self::marks($chunk) . ') AND `create_time` >= ? AND `create_time` < ? AND ' . $counted, [...$chunk, ...$range, ...$countedBinds]) as $q) {
+            foreach (QueryUtils::fetchRecords('SELECT qr.`patient_id`, DATE(qr.`create_time`) AS d, COALESCE(NULLIF(qr.`questionnaire`, \'\'), rep.`questionnaire`) AS `questionnaire`, qr.`questionnaire_response`
+                FROM `questionnaire_response` AS qr
+                LEFT JOIN `questionnaire_repository` AS rep ON rep.`id` = qr.`questionnaire_foreign_id`
+                WHERE qr.`patient_id` IN (' . self::marks($chunk) . ') AND qr.`create_time` >= ? AND qr.`create_time` < ? AND ' . $counted . '
+                AND NOT EXISTS (
+                    SELECT 1 FROM `form_questionnaire_assessments` AS dq
+                    JOIN `forms` AS df ON df.`form_id` = dq.`id` AND df.`pid` = dq.`pid` AND df.`formdir` = \'questionnaire_assessments\'
+                    WHERE dq.`response_id` = qr.`response_id` AND df.`deleted` = 1)', [...$chunk, ...$range, ...$countedBinds]) as $q) {
                 $json = json_decode((string)$q['questionnaire_response'], true);
                 // A response's items carry only their linkId; the Questionnaire saved with it says which LOINC code each is.
                 $codesOf = [];
@@ -315,7 +324,9 @@ final class RecordSource
         };
         $out = [];
         foreach (array_chunk($pids, self::CHUNK) as $chunk) {
+            // A problem marked entered-in-error or refuted is no diagnosis (core's condition-verification list).
             foreach (QueryUtils::fetchRecords("SELECT `pid`, `diagnosis`, COALESCE(`begdate`, `date`) AS d FROM `lists` WHERE `type` = 'medical_problem' AND `diagnosis` LIKE '%F31%'
+                AND COALESCE(`verification`, '') NOT IN ('entered-in-error', 'refuted')
                 AND `pid` IN (" . self::marks($chunk) . ')', $chunk) as $l) {
                 $d = substr((string)$l['d'], 0, 10);
                 if ($isBipolar((string)$l['diagnosis']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $d) === 1 && $d !== '0000-00-00') {
