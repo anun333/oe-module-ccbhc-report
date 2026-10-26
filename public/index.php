@@ -42,8 +42,8 @@ $num = fn(float $n): string => rtrim(rtrim(number_format($n, 2, '.', ''), '0'), 
 $isAdmin = AclMain::aclCheckCore('admin', 'super');
 ?>
 <!DOCTYPE html>
-<?php // The module's own text is written in English. ?>
-<html lang="en">
+<?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
+<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('CCBHC Report'); ?></title>

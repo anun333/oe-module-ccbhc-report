@@ -43,6 +43,8 @@ The installer plugin places it in `interface/modules/custom_modules/oe-module-cc
 
 Then go to Modules › Manage Modules › Unregistered, and **Register**, **Install** and **Enable** it. An administrator then chooses the visit categories in the settings; Time to Services needs them.
 
+**Manual installs:** if you copy modules in by hand rather than through Composer, every module's own `vendor/` must hold the same version of openhealthcare-common. OpenEMR loads the library once, from the first module that registers it, so an older copy in one module is what every module gets.
+
 ## Compatibility
 
 Written for OpenEMR 7.0 and later through [openhealthcare-common](https://github.com/anun333/openhealthcare-common)'s compatibility layer; its bootstrap never stops a page on any version. OpenEMR's SDOH assessment came in 7.0.4; before it, only a billed M1207 counts for the SDOH measure.

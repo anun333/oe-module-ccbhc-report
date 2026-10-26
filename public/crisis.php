@@ -81,8 +81,8 @@ $csrf = OpenEmr::csrfToken();
 $local = fn(?string $dt): string => $dt === null ? '' : oeFormatShortDate(substr($dt, 0, 10)) . ' ' . substr($dt, 11, 5);
 ?>
 <!DOCTYPE html>
-<?php // The module's own text is written in English. ?>
-<html lang="en">
+<?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
+<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('Crisis Episodes'); ?></title>

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5 (unreleased)
+
+- **Pages are announced in your language.** Each page now declares the signed-in user's OpenEMR language and its direction instead of English, so a screen reader reads the translated text in that language. It comes from openhealthcare-common 1.4.0, which this version requires.
+- **Manual installs:** the README now says that every module's own copy of openhealthcare-common must be the same version, since OpenEMR loads the library once, from the first module that registers it.
+
 ## 0.1.4 (2026-10-26)
 
 - **Fixed: a bipolar diagnosis marked entered-in-error or refuted no longer excludes a client from CDF-AD and CDF-CH.** The problem list's Verification (core's condition-verification list) is now read, so only a diagnosis that stands removes the client from the denominator.
