@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.4 (unreleased)
+## 0.1.4 (2026-10-26)
 
 - **Fixed: a bipolar diagnosis marked entered-in-error or refuted no longer excludes a client from CDF-AD and CDF-CH.** The problem list's Verification (core's condition-verification list) is now read, so only a diagnosis that stands removes the client from the denominator.
 - **Fixed: a questionnaire whose form was deleted from its visit no longer counts as a depression screen.** Deleting a questionnaire form from an encounter leaves its saved response behind (`forms.deleted = 1`); those responses are now left out, as the UDS and Title X modules already did.
