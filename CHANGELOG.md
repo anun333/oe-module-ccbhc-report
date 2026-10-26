@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 (2026-10-25)
+
+**A questionnaire someone hasn't finished no longer counts as a depression screen.** From OpenEMR's questionnaire runtime 0.4.0 (in master, and in 8.5.0 by a backport), a submitted questionnaire is saved as completed and a draft stays in-progress; before it, every one was saved in-progress, finished or not. The PHQ-9 and PHQ-2 totals read from saved questionnaires now count a response saved before the site's first completed one whatever its status, and one saved after it only when completed or amended (openhealthcare-common 1.3.0's rule). An entered-in-error response never counts. OpenEMR's own PHQ-9 form is read as before.
+
+- Requires openhealthcare-common 1.3.0.
+
 ## 0.1.0 (2026-10-25)
 
 **The CCBHC clinic-collected measures the stewards allow, in the reporting template's shape.**

@@ -21,6 +21,7 @@ use OpenEMR\Common\Database\QueryUtils;
 use OpenHealthcare\CcbhcReport\Domain\Client;
 use OpenHealthcare\CcbhcReport\Domain\Coverage;
 use OpenHealthcare\CcbhcReport\Domain\Records;
+use OpenHealthcare\Common\QuestionnaireStatus;
 
 final class RecordSource
 {
@@ -95,6 +96,7 @@ final class RecordSource
     {
         $race = $this->cdcCodes('race');
         $ethnicity = $this->cdcCodes('ethnicity');
+        // uds_veteran_status is the UDS Report module's demographics field, not OpenEMR's: read only where UDS added it.
         $veteran = QueryUtils::fetchRecords("SHOW COLUMNS FROM `patient_data` LIKE 'uds_veteran_status'") !== [];
         $out = [];
         foreach (array_chunk($pids, self::CHUNK) as $chunk) {
@@ -202,9 +204,12 @@ final class RecordSource
                 }
             }
         }
+        // A draft isn't a screen: from OpenEMR's runtime 0.4.0 a submitted response is saved completed, and
+        // before it every response was saved in-progress (openhealthcare-common's QuestionnaireStatus).
+        [$counted, $countedBinds] = QuestionnaireStatus::condition('questionnaire_response');
         foreach (array_chunk($pids, self::CHUNK) as $chunk) {
             foreach (QueryUtils::fetchRecords('SELECT `patient_id`, DATE(`create_time`) AS d, `questionnaire`, `questionnaire_response` FROM `questionnaire_response`
-                WHERE `patient_id` IN (' . self::marks($chunk) . ') AND `create_time` >= ? AND `create_time` < ?', [...$chunk, ...$range]) as $q) {
+                WHERE `patient_id` IN (' . self::marks($chunk) . ') AND `create_time` >= ? AND `create_time` < ? AND ' . $counted, [...$chunk, ...$range, ...$countedBinds]) as $q) {
                 $json = json_decode((string)$q['questionnaire_response'], true);
                 // A response's items carry only their linkId; the Questionnaire saved with it says which LOINC code each is.
                 $codesOf = [];
