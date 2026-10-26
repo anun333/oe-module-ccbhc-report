@@ -103,7 +103,7 @@ As written in the source; whether they behave correctly for a given user is not 
 | pages (`public/`) | 5 | 649 |
 | data (`data/`, read at runtime) | 1 | 311 |
 | tests (`tests/`, `phpunit.xml.dist`) | 3 | 255 |
-| module wiring | 5 | 159 |
+| module wiring | 5 | 160 |
 | install SQL (`sql/`) | 1 | 55 |
 | tools (`tools/`) | 1 | 31 |
 
