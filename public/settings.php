@@ -23,6 +23,7 @@ use OpenHealthcare\CcbhcReport\Domain\Coverage;
 use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
 use OpenHealthcare\Common\OpenEmr;
+use OpenHealthcare\CcbhcReport\Page;
 
 if (!AclMain::aclCheckCore('admin', 'super')) {
     OpenEmr::deny('CCBHC Report: settings refused', xl('CCBHC Report settings'), 'CCBHC Report');
@@ -61,7 +62,7 @@ $csrf = OpenEmr::csrfToken();
 ?>
 <!DOCTYPE html>
 <?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
-<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
+<html lang="<?php echo attr(Page::lang()); ?>" dir="<?php echo attr(Page::dir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('CCBHC Report settings'); ?></title>

@@ -22,6 +22,7 @@ use OpenEMR\Core\Header;
 use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Repository\Logs;
 use OpenHealthcare\Common\OpenEmr;
+use OpenHealthcare\CcbhcReport\Page;
 
 // The same access as Bootstrap::ACL, written out: patients/med to see; write or addonly to log.
 if (!AclMain::aclCheckCore('patients', 'med')) {
@@ -82,7 +83,7 @@ $local = fn(?string $dt): string => $dt === null ? '' : oeFormatShortDate(substr
 ?>
 <!DOCTYPE html>
 <?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
-<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
+<html lang="<?php echo attr(Page::lang()); ?>" dir="<?php echo attr(Page::dir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('Crisis Episodes'); ?></title>

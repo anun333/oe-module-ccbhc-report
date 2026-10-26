@@ -26,6 +26,7 @@ use OpenHealthcare\CcbhcReport\Repository\Logs;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
 use OpenHealthcare\CcbhcReport\Worklist\RequestsSource;
 use OpenHealthcare\Common\OpenEmr;
+use OpenHealthcare\CcbhcReport\Page;
 
 // The same access as Bootstrap::REQUEST_ACL, written out: patients/demo to see; write or addonly to log.
 if (!AclMain::aclCheckCore('patients', 'demo')) {
@@ -84,7 +85,7 @@ if ($sessionPid > 0) {
 ?>
 <!DOCTYPE html>
 <?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
-<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
+<html lang="<?php echo attr(Page::lang()); ?>" dir="<?php echo attr(Page::dir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('Requests for Services'); ?></title>

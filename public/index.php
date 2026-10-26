@@ -23,6 +23,7 @@ use OpenHealthcare\CcbhcReport\Labels;
 use OpenHealthcare\CcbhcReport\Report\CcbhcReport;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
 use OpenHealthcare\Common\OpenEmr;
+use OpenHealthcare\CcbhcReport\Page;
 
 // The same access as Bootstrap::ACL, written out: tools/footprint.php lists each check it can read.
 if (!AclMain::aclCheckCore('patients', 'med')) {
@@ -43,7 +44,7 @@ $isAdmin = AclMain::aclCheckCore('admin', 'super');
 ?>
 <!DOCTYPE html>
 <?php // The page is in the signed-in user's OpenEMR language, so translated text is announced in it. ?>
-<html lang="<?php echo attr(OpenEmr::pageLang()); ?>" dir="<?php echo attr(OpenEmr::pageDir()); ?>">
+<html lang="<?php echo attr(Page::lang()); ?>" dir="<?php echo attr(Page::dir()); ?>">
 <head>
     <meta charset="utf-8">
     <title><?php echo xlt('CCBHC Report'); ?></title>
