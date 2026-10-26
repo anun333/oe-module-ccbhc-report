@@ -1,6 +1,6 @@
 # CCBHC Report
 
-> **Status: 0.1.1, a pre-release.** Tested on OpenEMR with synthetic data only.
+> **Status: 0.1.2, a pre-release.** Tested on OpenEMR with synthetic data only.
 
 The quality measures a Certified Community Behavioral Health Clinic (CCBHC) collects itself, computed from OpenEMR's records and laid out as SAMHSA's data reporting template lays them out, so each table copies into the workbook. The measures follow SAMHSA's Quality Measures for Behavioral Health Clinics Technical Specifications and Resource Manual (February 2024) and its March 2025 errata.
 
