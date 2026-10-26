@@ -99,10 +99,10 @@ As written in the source; whether they behave correctly for a given user is not 
 
 | part | files | lines |
 |---|---|---|
-| PHP logic (`src/`) | 18 | 1873 |
-| pages (`public/`) | 5 | 653 |
+| PHP logic (`src/`) | 19 | 1908 |
+| pages (`public/`) | 5 | 661 |
+| tests (`tests/`, `phpunit.xml.dist`) | 5 | 334 |
 | data (`data/`, read at runtime) | 1 | 311 |
-| tests (`tests/`, `phpunit.xml.dist`) | 4 | 302 |
 | module wiring | 5 | 160 |
 | install SQL (`sql/`) | 1 | 55 |
 | tools (`tools/`) | 1 | 31 |

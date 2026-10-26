@@ -20,6 +20,7 @@ require_once __DIR__ . '/../../../../globals.php';
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Common\Database\QueryUtils;
 use OpenEMR\Core\Header;
+use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Report\CcbhcReport;
 use OpenHealthcare\CcbhcReport\Repository\Logs;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
@@ -93,6 +94,7 @@ if ($sessionPid > 0) {
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 80rem">
     <h1 class="h4"><?php echo xlt('Requests for Services'); ?></h1>
+    <p class="small mb-2"><a href="<?php echo attr(Guide::url()); ?>" target="_blank" rel="noopener"><?php echo xlt('Help'); ?><span class="sr-only"> <?php echo xlt('(opens in a new window)'); ?></span></a></p>
     <p><?php echo xlt('Log the day a person, or their guardian, asks for services: the CCBHC measures count the time to their first evaluation and first clinical service from it. A referral from another provider is not a request; log the day the person contacts the clinic.'); ?></p>
     <?php foreach ($errors as $e) { ?>
         <div class="alert alert-danger py-2"><?php echo text($e); ?></div>

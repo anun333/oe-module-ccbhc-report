@@ -18,6 +18,7 @@ require_once __DIR__ . '/../../../../globals.php';
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Core\Header;
 use OpenHealthcare\CcbhcReport\Domain\Tally;
+use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Labels;
 use OpenHealthcare\CcbhcReport\Report\CcbhcReport;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
@@ -52,6 +53,7 @@ $isAdmin = AclMain::aclCheckCore('admin', 'super');
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 80rem">
     <h1 class="h4"><?php echo xlt('CCBHC Report: clinic-collected measures'); ?></h1>
+    <p class="small mb-2"><a href="<?php echo attr(Guide::url()); ?>" target="_blank" rel="noopener"><?php echo xlt('Help'); ?><span class="sr-only"> <?php echo xlt('(opens in a new window)'); ?></span></a></p>
     <p><?php echo xlt('Each table below is laid out as in the reporting template SAMHSA publishes (February 2024), so its numbers copy into the matching tab. Measures follow the Technical Specifications (February 2024) and the March 2025 errata.'); ?>
         <a href="requests.php" onclick="top.restoreSession()"><?php echo xlt('Requests for services'); ?></a> ·
         <a href="crisis.php" onclick="top.restoreSession()"><?php echo xlt('Crisis episodes'); ?></a>

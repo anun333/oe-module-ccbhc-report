@@ -19,6 +19,7 @@ require_once __DIR__ . '/../../../../globals.php';
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Common\Database\QueryUtils;
 use OpenEMR\Core\Header;
+use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Repository\Logs;
 use OpenHealthcare\Common\OpenEmr;
 
@@ -91,6 +92,7 @@ $local = fn(?string $dt): string => $dt === null ? '' : oeFormatShortDate(substr
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 80rem">
     <h1 class="h4"><?php echo xlt('Crisis Episodes'); ?></h1>
+    <p class="small mb-2"><a href="<?php echo attr(Guide::url()); ?>" target="_blank" rel="noopener"><?php echo xlt('Help'); ?><span class="sr-only"> <?php echo xlt('(opens in a new window)'); ?></span></a></p>
     <p><?php echo xlt('Log each crisis contact and when face-to-face crisis care began. A new episode starts with a contact more than 24 hours after the last one for the same person. Contacts handled on the crisis line alone are logged but not measured.'); ?>
         <a href="index.php" onclick="top.restoreSession()"><?php echo xlt('Back to the report'); ?></a></p>
     <?php foreach ($errors as $e) { ?>

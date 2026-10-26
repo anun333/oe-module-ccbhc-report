@@ -6,6 +6,8 @@ The quality measures a Certified Community Behavioral Health Clinic (CCBHC) coll
 
 What installing it changes in your database, what it reads and writes, and what it hooks into are listed in [FOOTPRINT.md](FOOTPRINT.md), generated from the source.
 
+Using the module day to day, task by task for each role: see [GUIDE.md](GUIDE.md).
+
 ## What it does
 
 - **Time to Services (I-SERV):** the average business days from a New Client's First Contact to the Initial Evaluation and to the Initial Clinical Service, and the average hours from a crisis contact to face-to-face crisis care. Business days leave out weekends, federal holidays (on their observed days) and the state holidays you list.

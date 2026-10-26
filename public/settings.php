@@ -20,6 +20,7 @@ use OpenEMR\Common\Database\QueryUtils;
 use OpenEMR\Core\Header;
 use OpenHealthcare\CcbhcReport\Domain\BusinessDays;
 use OpenHealthcare\CcbhcReport\Domain\Coverage;
+use OpenHealthcare\CcbhcReport\Guide;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
 use OpenHealthcare\Common\OpenEmr;
 
@@ -70,6 +71,7 @@ $csrf = OpenEmr::csrfToken();
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 70rem">
     <h1 class="h4"><?php echo xlt('CCBHC Report settings'); ?></h1>
+    <p class="small mb-2"><a href="<?php echo attr(Guide::url()); ?>" target="_blank" rel="noopener"><?php echo xlt('Help'); ?><span class="sr-only"> <?php echo xlt('(opens in a new window)'); ?></span></a></p>
     <p><a href="index.php" onclick="top.restoreSession()"><?php echo xlt('Back to the report'); ?></a></p>
     <?php if ($saved) { ?>
         <div class="alert alert-success py-2"><?php echo xlt('Saved.'); ?></div>
