@@ -65,6 +65,7 @@ $csrf = OpenEmr::csrfToken();
     <meta charset="utf-8">
     <title><?php echo xlt('CCBHC Report settings'); ?></title>
     <?php Header::setupHeader(['common']); ?>
+    <?php echo \OpenHealthcare\CcbhcReport\Contrast::style(); ?>
 </head>
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 70rem">

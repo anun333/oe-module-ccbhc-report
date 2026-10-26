@@ -86,6 +86,7 @@ $local = fn(?string $dt): string => $dt === null ? '' : oeFormatShortDate(substr
     <meta charset="utf-8">
     <title><?php echo xlt('Crisis Episodes'); ?></title>
     <?php Header::setupHeader(['common']); ?>
+    <?php echo \OpenHealthcare\CcbhcReport\Contrast::style(); ?>
 </head>
 <body class="body_top">
 <main class="container-fluid py-3" style="max-width: 80rem">
