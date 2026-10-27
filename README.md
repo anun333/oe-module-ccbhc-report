@@ -45,6 +45,8 @@ Then go to Modules › Manage Modules › Unregistered, and **Register**, **Inst
 
 **Manual installs:** if you copy modules in by hand rather than through Composer, every module's own `vendor/` must hold the same version of openhealthcare-common. OpenEMR loads the library once, from the first module that registers it, so an older copy in one module is what every module gets.
 
+**After adding, upgrading or removing a module copied in by hand, restart the container (or Apache).** OpenEMR's official Docker images (8.0.0 to 8.5.0) keep in APCu which file holds each class, and each class they didn't find, across requests: until a restart, a class once not found stays not found, and a removed module's classes still point at its folder. An OpenEMR built from source without Composer's `--apcu-autoloader` has no such cache.
+
 ### An index on a core table
 
 Installing or upgrading adds one index to a core table: `response_id` on `form_questionnaire_assessments (response_id(64))`. The deleted-form check joins on that column, which core leaves without an index; on a test copy of a mid-size clinic (20,000 patients, 200,000 visits, 15,384 PHQ-9 responses) the index took the 2025 report from 76 s to 45 s, with the same output (reading billing by patient took it on to 6.7 s). The UDS and Title X Report modules add the same index under the same name, so it's created once; if core adds an index named `response_id` itself, the module's step is skipped. Removing the module leaves the index in place; it changes no data.
