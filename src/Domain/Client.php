@@ -52,9 +52,14 @@ final readonly class Client
     ) {
     }
 
+    /** Age in whole years on a day; 0 for a date of birth after it (a data-entry error), as for a birth less than a year after. */
     public function ageOn(\DateTimeImmutable $day): ?int
     {
-        return $this->dob === null ? null : $this->dob->diff($day)->y;
+        if ($this->dob === null) {
+            return null;
+        }
+        $diff = $this->dob->diff($day);
+        return $diff->invert === 1 ? 0 : $diff->y;
     }
 
     /**

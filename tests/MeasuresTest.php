@@ -201,6 +201,29 @@ final class MeasuresTest extends TestCase
         self::assertSame([0.0, 1], $child->parts['screened']->total(), 'the 15-year-old is in CDF-CH');
     }
 
+    public function testABirthAfterTheDayIsAgeZero(): void
+    {
+        self::assertSame(15, self::client(1, '2010-05-10')->ageOn(self::d('2025-05-10')));
+        self::assertSame(14, self::client(1, '2010-05-11')->ageOn(self::d('2025-05-10')));
+        self::assertSame(0, self::client(1, '2026-01-10')->ageOn(self::d('2025-12-31')), 'less than a year after');
+        self::assertSame(0, self::client(1, '2045-05-10')->ageOn(self::d('2025-05-10')), 'twenty years after, not 20');
+        self::assertNull((new Client(1, null, 'Female', Client::NOT_HISPANIC, Client::WHITE))->ageOn(self::d('2025-05-10')));
+
+        // A date of birth entered twenty years late used to read as 20: an adult in CDF-AD and SDOH, 18-64 in the case load.
+        $codes = ['positive_with_plan' => 'HCPCS:G8431', 'negative' => 'HCPCS:G8510', 'exception' => 'HCPCS:G8433'];
+        $r = self::records([
+            'clients' => [1 => self::client(1, '2045-05-10')],
+            'visits' => [1 => [self::visit('2025-05-10', self::OTHER, ['CPT4:90834', 'CPT4:99213', 'HCPCS:G8510'])]],
+        ]);
+        self::assertSame([0.0, 0], (new DepressionScreening(DepressionScreening::ADULT, ['CPT4:90834'], $codes))->compute($r)->parts['screened']->total());
+        $sdoh = (new SocialDrivers(['CPT4:99213'], 'HCPCS:M1207'))->compute($r);
+        self::assertSame([0.0, 0], $sdoh->parts['screened']->total());
+        self::assertArrayNotHasKey('adults_no_qualifying_code', $sdoh->notes);
+        $c = (new CaseLoad())->compute($r);
+        self::assertSame(1, $c['age']['0_11']);
+        self::assertSame(0, $c['age']['18_64']);
+    }
+
     public function testCaseLoadCountsEachClientSeenInTheYearOnce(): void
     {
         $r = self::records([

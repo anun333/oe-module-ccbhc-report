@@ -18,6 +18,7 @@ require_once __DIR__ . '/../../../../globals.php';
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Common\Database\QueryUtils;
 use OpenHealthcare\CcbhcReport\Report\CcbhcReport;
+use OpenHealthcare\CcbhcReport\Report\CsvRow;
 use OpenHealthcare\Common\OpenEmr;
 
 // The same access as Bootstrap::ACL, written out: tools/footprint.php lists each check it can read.
@@ -43,11 +44,9 @@ OpenEmr::audit('other', "CCBHC Report: $measure client list for $year downloaded
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="ccbhc-' . strtolower($measure) . "-$year.csv\"");
 $out = fopen('php://output', 'w');
-fputcsv($out, ['chart_number', 'name', 'part', 'date', 'counted', 'value', 'why', 'age', 'payer', 'ethnicity', 'race'], ',', '"', '');
+CsvRow::write($out, ['chart_number', 'name', 'part', 'date', 'counted', 'value', 'why', 'age', 'payer', 'ethnicity', 'race']);
 foreach ($result->rows as $r) {
-    // A leading =, +, - or @ would run as a formula in a spreadsheet; the apostrophe keeps it text.
-    $safe = fn(string $v): string => preg_match('/^[=+\-@]/', $v) === 1 ? "'" . $v : $v;
-    fputcsv($out, [$safe($names[$r['pid']][0] ?? ''), $safe($names[$r['pid']][1] ?? ''), $r['part'], $r['date'], $r['counted'] ? 'yes' : 'no', $r['value'], $r['why'],
-        $r['strata']['age'] ?? '', $r['strata']['payer'] ?? '', $r['strata']['ethnicity'] ?? '', $r['strata']['race'] ?? ''], ',', '"', '');
+    CsvRow::write($out, [$names[$r['pid']][0] ?? '', $names[$r['pid']][1] ?? '', $r['part'], $r['date'], $r['counted'] ? 'yes' : 'no', $r['value'], $r['why'],
+        $r['strata']['age'] ?? '', $r['strata']['payer'] ?? '', $r['strata']['ethnicity'] ?? '', $r['strata']['race'] ?? '']);
 }
 fclose($out);

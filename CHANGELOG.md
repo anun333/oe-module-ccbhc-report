@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 (unreleased)
+
+- **Fixed: a date of birth after the day no longer reads as an age.** A birth date entered in the future (2045 typed for 1945, say) made the client that many years old: twenty years late counted as a 20-year-old adult in CDF-AD and SDOH, and 12 or more years late put a client in Time to Services and CDF-CH. Such a client is now age 0 on that day, as one born later that year already was, so the measures leave them out and the case load counts them under 0 to 11. Only a data-entry error reaches this.
+- **Every column of a client list download is protected against spreadsheet formulas.** Before, only the chart number and name were; now any text cell that starts with `=`, `+`, `-` or `@` gets an apostrophe, the same rule as the UDS Report's downloads. A chart number like `-12` is a number and no longer gets one.
+- **Checked:** the unit tests (32) on PHP 8.2 and 8.5, where the new age test fails on 0.1.5's code; end to end on OpenEMR 8.4.1.
+
 ## 0.1.5 (2026-10-26)
 
 - **Faster on years of data.** On a test copy of a mid-size clinic (20,000 patients, 200,000 visits, 15,384 PHQ-9 responses, MariaDB 12.3.3) the 2025 report went from 76 s to 6.7 s, with the same output:
