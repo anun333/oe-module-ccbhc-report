@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.6 (unreleased)
+## 0.1.6 (2026-10-26)
 
 - **Fixed: a date of birth after the day no longer reads as an age.** A birth date entered in the future (2045 typed for 1945, say) made the client that many years old: twenty years late counted as a 20-year-old adult in CDF-AD and SDOH, and 12 or more years late put a client in Time to Services and CDF-CH. Such a client is now age 0 on that day, as one born later that year already was, so the measures leave them out and the case load counts them under 0 to 11. Only a data-entry error reaches this.
 - **Every column of a client list download is protected against spreadsheet formulas.** Before, only the chart number and name were; now any text cell that starts with `=`, `+`, `-` or `@` gets an apostrophe, the same rule as the UDS Report's downloads. A chart number like `-12` is a number and no longer gets one.
