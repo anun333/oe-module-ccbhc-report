@@ -55,8 +55,9 @@ An episode logged before care began shows **Not yet**. Set the time in that row 
 
 1. Choose the **Measurement Year** and **Show**.
 2. Read each table and copy it into the matching tab of SAMHSA's workbook. The tables follow the template's layout, stratified by age, payer, ethnicity and race where the template asks.
-3. Choose **Client list (CSV)** beside a measure to download the clients it counted, to check them against your records.
+3. Choose **Client list (CSV)** beside a measure to download the clients it counted, to check them against your records. A text cell that starts with =, +, - or @ has an apostrophe in front, so a spreadsheet shows it instead of running it as a formula; a chart number such as -12 is left as it is.
 4. If a client is excluded for bipolar disorder by mistake, mark that problem as entered in error (or refuted) on the patient's problem list and run the measure again. A questionnaire deleted from its visit doesn't count as a screen.
+5. A client whose birth date is after the day being measured (2045 typed for 1945, say) counts as age 0: they drop out of the adult and 12 to 17 measures and show under 0 to 11 in **Case Load Characteristics**. Fix the birth date in Demographics and run the measures again.
 
 *What you see:* Time to Services (I-SERV), Screening for Social Drivers of Health (SDOH), Screening for Depression and Follow-Up Plan for adults and for ages 12 to 17, and **Case Load Characteristics**. Under them, the required measures this module doesn't compute.
 
