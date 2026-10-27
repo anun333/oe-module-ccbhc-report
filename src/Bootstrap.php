@@ -18,6 +18,8 @@ namespace OpenHealthcare\CcbhcReport;
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Menu\MenuEvent;
 use OpenHealthcare\CcbhcReport\Worklist\RequestsSource;
+use OpenHealthcare\Common\Contract\Worklist\Worklist;
+use OpenHealthcare\Common\Contract\Worklist\WorkSource;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class Bootstrap
@@ -72,13 +74,16 @@ final class Bootstrap
         return $event;
     }
 
-    /** "Requests for services" in the Staff Worklist, for whoever logs them (the front desk), when the Worklist is installed. */
+    /**
+     * "Requests for services" in the Staff Worklist (0.8.0 or later), for whoever logs them (the front desk). The tab is
+     * built on openhealthcare-common's contract; where a module copied in by hand loaded an older copy of the library
+     * first, the contract isn't there and the tab is left out rather than stop the page.
+     */
     public function addWorklistTab(object $event): void
     {
-        if (!method_exists($event, 'addSource') || !interface_exists('OpenHealthcare\\StaffWorklist\\Source\\WorkSourceInterface')
-            || !AclMain::aclCheckCore('patients', 'demo')) {
+        if (!interface_exists(WorkSource::class) || !AclMain::aclCheckCore('patients', 'demo')) {
             return;
         }
-        $event->addSource(new RequestsSource($event->now), xl('Requests for services'), xl('Front desk'));
+        Worklist::contribute($event, new RequestsSource(Worklist::now($event)), xl('Requests for services'), xl('Front desk'));
     }
 }

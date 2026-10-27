@@ -4,7 +4,8 @@
  * "Requests for services" in the Staff Worklist: each request logged in the last 90 days with no Initial Evaluation yet,
  * with the business days since it came in. The CCBHC criteria want an evaluation within 10 business days of a routine
  * request and within 1 of an urgent one (criterion 2.b.1); past that the row is high priority. Recording the
- * evaluation visit clears the row.
+ * evaluation visit clears the row. Built on openhealthcare-common's Worklist contract (1.5.0), so it loads without the
+ * Worklist's classes.
  *
  * @package   OpenEMR
  * @link      https://www.open-emr.org
@@ -20,12 +21,12 @@ namespace OpenHealthcare\CcbhcReport\Worklist;
 use OpenEMR\Common\Database\QueryUtils;
 use OpenHealthcare\CcbhcReport\Report\CcbhcReport;
 use OpenHealthcare\CcbhcReport\Repository\Settings;
-use OpenHealthcare\StaffWorklist\Model\ItemKey;
-use OpenHealthcare\StaffWorklist\Model\PatientRef;
-use OpenHealthcare\StaffWorklist\Model\WorkItem;
-use OpenHealthcare\StaffWorklist\Source\WorkSourceInterface;
+use OpenHealthcare\Common\Contract\Worklist\ItemKey;
+use OpenHealthcare\Common\Contract\Worklist\PatientRef;
+use OpenHealthcare\Common\Contract\Worklist\WorkItem;
+use OpenHealthcare\Common\Contract\Worklist\WorkSource;
 
-final class RequestsSource implements WorkSourceInterface
+final class RequestsSource implements WorkSource
 {
     public const SOURCE = 'ccbhcreq';
     private const WINDOW_DAYS = 90;

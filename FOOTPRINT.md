@@ -101,11 +101,11 @@ As written in the source; whether they behave correctly for a given user is not 
 
 | part | files | lines |
 |---|---|---|
-| PHP logic (`src/`) | 21 | 2015 |
+| PHP logic (`src/`) | 21 | 2021 |
 | pages (`public/`) | 5 | 664 |
-| tests (`tests/`, `phpunit.xml.dist`) | 8 | 500 |
+| tests (`tests/`, `phpunit.xml.dist`) | 10 | 637 |
 | data (`data/`, read at runtime) | 1 | 311 |
-| module wiring | 5 | 160 |
+| module wiring | 5 | 165 |
 | install SQL (`sql/`) | 2 | 70 |
 | tools (`tools/`) | 1 | 31 |
 

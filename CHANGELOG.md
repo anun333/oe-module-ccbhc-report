@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7 (unreleased)
+
+- **The Staff Worklist tab is built on openhealthcare-common's shared contract** (1.5.0), so it loads without the Worklist's classes and has unit tests of its own. Staff see the same "Requests for services" tab with the same rows, on any Worklist from 0.8.0. The bootstrap also registers the library's contracts under their own prefix, so they load where a module copied in by hand carries an older copy that registered first; if no copy with the contracts is there at all, the tab is left out rather than stop the page.
+- Requires openhealthcare-common 1.5.0.
+- **Checked:** unit tests on PHP 8.2 and 8.5 (35; 3 new: each request without an evaluation is an item, high once past criterion 2.b.1's business days, with the evaluation's categories and CPT codes in the query; one patient's recheck; the tab reaches a Worklist through the contract). `dev/ccbhc_report_check.py` on OpenEMR 8.4.1 with Worklist 0.9.0, and on master with Worklist 0.8.7: today's request is in the tab; all passed.
+
 ## 0.1.6 (2026-10-26)
 
 - **Fixed: a date of birth after the day no longer reads as an age.** A birth date entered in the future (2045 typed for 1945, say) made the client that many years old: twenty years late counted as a 20-year-old adult in CDF-AD and SDOH, and 12 or more years late put a client in Time to Services and CDF-CH. Such a client is now age 0 on that day, as one born later that year already was, so the measures leave them out and the case load counts them under 0 to 11. Only a data-entry error reaches this.
