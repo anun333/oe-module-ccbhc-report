@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.5 (unreleased)
+## 0.1.5 (2026-10-26)
 
 - **Faster on years of data.** On a test copy of a mid-size clinic (20,000 patients, 200,000 visits, 15,384 PHQ-9 responses, MariaDB 12.3.3) the 2025 report went from 76 s to 6.7 s, with the same output:
   - **an index on core's `form_questionnaire_assessments.response_id`**, which the deleted-form check joins on and core leaves unindexed (76 s to 45 s). It's added on install and on upgrade (`sql/0_1_4-to-0_1_5_upgrade.sql`), shared by name with the UDS and Title X Report modules, so it's made once;
